@@ -36,7 +36,12 @@ class RLEMethod(Enum):
     B = b'\x8a'      # 138
 #:
 
-def encode_rle(method: RLEMethod, in_file_path: str, out_file_path: str):
+def encode_rle(
+        method: RLEMethod,
+        in_file_path: str,
+        out_file_path: str,
+        overwrite: bool = True,
+):
     """
     Encodes the file given by C{in_file_path} with the RLE compression
     method specified by the method parameter. Compressed data 
@@ -49,7 +54,7 @@ def encode_rle(method: RLEMethod, in_file_path: str, out_file_path: str):
         RLEMethod.B: _encode_mB,
     }[method]
     with open(in_file_path, 'rb') as in_file:
-        with open(out_file_path, 'wb') as out_file:
+        with open(out_file_path, 'wb' if overwrite else 'xb') as out_file:
             out_file.write(method.value)
             encode_fn(in_file, out_file)
 #:
@@ -105,7 +110,11 @@ def _do_encode(in_: BinaryIO, write_fn):
     #:
 #:
 
-def decode_rle(in_file_path: str, out_file_path: str) -> RLEMethod:
+def decode_rle(
+        in_file_path: str, 
+        out_file_path: str, 
+        overwrite: bool = True,
+) -> RLEMethod:
     """
     Decodes the file given by C{in_file_path} with the RLE compression
     method specified by the 1st byte in that same input file.
@@ -120,7 +129,7 @@ def decode_rle(in_file_path: str, out_file_path: str) -> RLEMethod:
             RLEMethod.A: _decode_mA,
             RLEMethod.B: _decode_mB,
         }[method]
-        with open(out_file_path, 'wb') as out_file:
+        with open(out_file_path, 'wb' if overwrite else 'xb') as out_file:
             decode_fn(in_file, out_file)
     return method
 #:
