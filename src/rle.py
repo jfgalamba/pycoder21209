@@ -31,6 +31,12 @@ from io import SEEK_CUR
 from typing import BinaryIO
 
 
+__all__ = [
+    'RLEMethod',
+    'encode_rle',
+    'decode_rle'
+]
+
 class RLEMethod(Enum):
     A = b'\x21'      # 33 or b'!'
     B = b'\x8a'      # 138
