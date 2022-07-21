@@ -63,6 +63,8 @@ def encode_rle(
         with open(out_file_path, 'wb' if overwrite else 'xb') as out_file:
             out_file.write(method.value)
             encode_fn(in_file, out_file)
+        #:
+    #:
 #:
 
 def _encode_mA(in_file: BinaryIO, out_file: BinaryIO):
